@@ -1,10 +1,9 @@
 package it.epicode.gs_budgets.controller;
 
-import it.epicode.gs_budgets.dto.AccountDto;
-import it.epicode.gs_budgets.entity.Account;
-import it.epicode.gs_budgets.entity.User;
+import it.epicode.gs_budgets.dto.IncomeDto;
+import it.epicode.gs_budgets.entity.Income;
 import it.epicode.gs_budgets.exception.BadRequestException;
-import it.epicode.gs_budgets.service.AccountService;
+import it.epicode.gs_budgets.service.IncomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -14,52 +13,51 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/gs-budgets/accounts")
-public class AccountController {
+@RequestMapping("api/gs-budgets/incomes")
+public class IncomeController {
     @Autowired
-    private AccountService accountService;
+    private IncomeService incomeService;
+
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public Page<Account> getAccounts(@RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "10") int size,
-                                     @RequestParam(defaultValue = "id") String sortBy) {
-        return accountService.getAccounts(page, size, sortBy);
+    public Page<Income> getIncomes(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
+                                   @RequestParam(defaultValue = "id") String sortBy) {
+        return incomeService.getIncomes(page, size, sortBy);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public Account getAccountById(@PathVariable int id) {
-        return accountService.getAccountById(id);
+    public Income getIncomeById(@PathVariable int id) {
+        return incomeService.getIncomeById(id);
     }
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public String saveAccount(@RequestBody @Validated AccountDto accountDto, BindingResult bindingResult) {
+    public String saveIncome(@RequestBody @Validated IncomeDto incomeDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors()
                     .stream().map(e -> e.getDefaultMessage()).reduce("", (s, s2) -> s + " - " + s2));
         }
-            return accountService.saveAccount(accountDto);
+        return incomeService.saveIncome(incomeDto);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @ResponseStatus(HttpStatus.OK)
-    public Account updateAccount(@PathVariable int id, @RequestBody @Validated AccountDto accountDto, BindingResult bindingResult) {
+    public Income updateIncome(@PathVariable int id, @RequestBody @Validated IncomeDto incomeDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors().stream().
                     map(objectError -> objectError.getDefaultMessage()).reduce("", (s, s2) -> s + " - " + s2));
-            // " - " (riga sopra) serve per separare gli errori con un trattino tra uno e l'altro
         }
-        return accountService.updateAccount(id, accountDto);
+        return incomeService.updateIncome(id, incomeDto);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public String deleteAccount(@PathVariable int id) {
-        return accountService.deleteAccount(id);
+    public String deleteIncome(@PathVariable int id) {
+        return incomeService.deleteIncome(id);
     }
-
 
 }
