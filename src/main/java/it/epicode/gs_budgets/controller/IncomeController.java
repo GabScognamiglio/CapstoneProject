@@ -1,6 +1,8 @@
 package it.epicode.gs_budgets.controller;
 
 import it.epicode.gs_budgets.dto.IncomeDto;
+import it.epicode.gs_budgets.dto.RecurringExpenseDto;
+import it.epicode.gs_budgets.dto.RecurringIncomeDto;
 import it.epicode.gs_budgets.entity.Income;
 import it.epicode.gs_budgets.exception.BadRequestException;
 import it.epicode.gs_budgets.service.IncomeService;
@@ -60,4 +62,14 @@ public class IncomeController {
         return incomeService.deleteIncome(id);
     }
 
+
+    @PostMapping("/recurring")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public String createRecurringIncomes(@RequestBody @Validated RecurringIncomeDto recurringIncomeDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException(bindingResult.getAllErrors().stream().
+                    map(objectError -> objectError.getDefaultMessage()).reduce("", (s, s2) -> s + " - " + s2));
+        }
+        return incomeService.createRecurringIncomes(recurringIncomeDto);
+    }
 }

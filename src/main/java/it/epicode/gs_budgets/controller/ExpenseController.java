@@ -2,6 +2,7 @@ package it.epicode.gs_budgets.controller;
 
 
 import it.epicode.gs_budgets.dto.ExpenseDto;
+import it.epicode.gs_budgets.dto.RecurringExpenseDto;
 import it.epicode.gs_budgets.entity.Expense;
 import it.epicode.gs_budgets.exception.BadRequestException;
 import it.epicode.gs_budgets.service.ExpenseService;
@@ -23,8 +24,8 @@ public class ExpenseController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public Page<Expense> getExpenses(@RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "10") int size,
-                                   @RequestParam(defaultValue = "id") String sortBy) {
+                                     @RequestParam(defaultValue = "10") int size,
+                                     @RequestParam(defaultValue = "id") String sortBy) {
         return expenseService.getExpenses(page, size, sortBy);
     }
 
@@ -61,4 +62,14 @@ public class ExpenseController {
         return expenseService.deleteExpense(id);
     }
 
+
+    @PostMapping("/recurring")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public String createRecurringExpenses(@RequestBody @Validated RecurringExpenseDto recurringExpenseDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException(bindingResult.getAllErrors().stream().
+                    map(objectError -> objectError.getDefaultMessage()).reduce("", (s, s2) -> s + " - " + s2));
+        }
+        return expenseService.createRecurringExpenses(recurringExpenseDto);
+    }
 }
