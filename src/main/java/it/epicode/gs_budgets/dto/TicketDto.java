@@ -14,5 +14,5 @@ public class TicketDto {
     @NotBlank
     private String description;
     @NotNull
-    private User user;
+    private int userId;
 }

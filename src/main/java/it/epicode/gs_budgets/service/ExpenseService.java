@@ -19,9 +19,12 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
+    @Autowired
+    private AccountService accountService;
+
     public String saveExpense(ExpenseDto expenseDto) {
         Expense expense = new Expense();
-        expense.setAccount(expenseDto.getAccount());
+        expense.setAccount(accountService.getAccountById(expenseDto.getAccountId()));
         expense.setAmount(expenseDto.getAmount());
         expense.setTag(expenseDto.getTag());
         expense.setComment(expenseDto.getComment());
@@ -48,7 +51,7 @@ public class ExpenseService {
 
     public Expense updateExpense(int id, ExpenseDto expenseDto) {
         Expense expense = getExpenseById(id);
-        expense.setAccount(expenseDto.getAccount());
+        expense.setAccount(accountService.getAccountById(expenseDto.getAccountId()));
         expense.setAmount(expenseDto.getAmount());
         expense.setTag(expenseDto.getTag());
         expense.setComment(expenseDto.getComment());

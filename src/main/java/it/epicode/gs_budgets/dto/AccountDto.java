@@ -14,5 +14,5 @@ public class AccountDto {
     private String name;
     private String description;
     @NotNull
-    private User user;
+    private int userId;
 }

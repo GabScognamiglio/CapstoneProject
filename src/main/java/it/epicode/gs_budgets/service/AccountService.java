@@ -17,11 +17,14 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private UserService userService;
+
     public String saveAccount(AccountDto accountDto) {
         Account account = new Account();
         account.setName(accountDto.getName());
         account.setDescription(accountDto.getDescription());
-        account.setUser(accountDto.getUser());
+        account.setUser(userService.getUserById(accountDto.getUserId()));
 
         accountRepository.save(account);
         return "Account with id " + account.getId() + " correctly saved for user with id: " + account.getUser().getId();
@@ -45,7 +48,7 @@ public class AccountService {
         Account account = getAccountById(id);
         account.setName(accountDto.getName());
         account.setDescription(accountDto.getDescription());
-        account.setUser(accountDto.getUser());
+        account.setUser(userService.getUserById(accountDto.getUserId()));
 
         accountRepository.save(account);
         return account;

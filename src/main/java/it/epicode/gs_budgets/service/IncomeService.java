@@ -22,9 +22,12 @@ public class IncomeService {
     @Autowired
     private IncomeRepository incomeRepository;
 
+    @Autowired
+    private AccountService accountService;
+
     public String saveIncome(IncomeDto incomeDto) {
         Income income = new Income();
-        income.setAccount(incomeDto.getAccount());
+        income.setAccount(accountService.getAccountById(incomeDto.getAccountId()));
         income.setAmount(incomeDto.getAmount());
         income.setTag(incomeDto.getTag());
         income.setComment(incomeDto.getComment());
@@ -51,7 +54,7 @@ public class IncomeService {
 
     public Income updateIncome(int id, IncomeDto incomeDto) {
         Income income = getIncomeById(id);
-        income.setAccount(incomeDto.getAccount());
+        income.setAccount(accountService.getAccountById(incomeDto.getAccountId()));
         income.setAmount(incomeDto.getAmount());
         income.setTag(incomeDto.getTag());
         income.setComment(incomeDto.getComment());

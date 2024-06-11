@@ -28,7 +28,7 @@ public class TicketService {
         Ticket ticket = new Ticket();
         ticket.setObject(ticketDto.getObject());
         ticket.setDescription(ticketDto.getDescription());
-        ticket.setUser(ticketDto.getUser());
+        ticket.setUser(userService.getUserById(ticketDto.getUserId()));
 
         ticketRepository.save(ticket);
         return "Ticket with id " + ticket.getId() + " correctly saved for user with id: " + ticket.getUser().getId();

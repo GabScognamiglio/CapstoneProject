@@ -5,6 +5,7 @@ package it.epicode.gs_budgets.controller;
 import it.epicode.gs_budgets.dto.UserDto;
 import it.epicode.gs_budgets.dto.UserLoginDto;
 import it.epicode.gs_budgets.exception.BadRequestException;
+import it.epicode.gs_budgets.security.AuthResponse;
 import it.epicode.gs_budgets.service.AuthService;
 import it.epicode.gs_budgets.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public String login(@RequestBody @Validated UserLoginDto userLoginDto, BindingResult bindingResult) {
+    public AuthResponse login(@RequestBody @Validated UserLoginDto userLoginDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors()
                     .stream().map(e -> e.getDefaultMessage()).reduce("", (s1, s2) -> s1 + s2));

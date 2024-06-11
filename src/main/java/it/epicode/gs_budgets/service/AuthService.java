@@ -4,6 +4,7 @@ package it.epicode.gs_budgets.service;
 import it.epicode.gs_budgets.dto.UserLoginDto;
 import it.epicode.gs_budgets.entity.User;
 import it.epicode.gs_budgets.exception.UnauthorizedException;
+import it.epicode.gs_budgets.security.AuthResponse;
 import it.epicode.gs_budgets.security.JwtTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +21,12 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String authenticateUserAndCreateToken(UserLoginDto userLoginDto) {
+    public AuthResponse authenticateUserAndCreateToken(UserLoginDto userLoginDto) {
         User user = userService.getUserByEmail(userLoginDto.getEmail());
 
         if (passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
-            return jwtTool.createToken(user);
+            String token = jwtTool.createToken(user);
+            return new AuthResponse(token,user);
         } else {
             throw new UnauthorizedException("Wrong password!");
         }
