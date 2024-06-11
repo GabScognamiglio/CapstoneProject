@@ -21,4 +21,5 @@ public abstract class Transaction {
     private String tag;
     private String comment;
     private LocalDate date;
+    private boolean isRecurring;
 }

@@ -22,4 +22,5 @@ public class IncomeDto {
     private LocalDate date;
     @NotNull
     private IncomeCategory category;
+    private boolean isRecurring;
 }

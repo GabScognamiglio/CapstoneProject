@@ -9,7 +9,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class ExpenseDto {
+public class RecurringExpenseDto {
 
     @NotNull
     private Account account;
@@ -19,8 +19,12 @@ public class ExpenseDto {
     private String tag;
     private String comment;
     @NotNull
-    private LocalDate date;
-    @NotNull
     private ExpenseCategory category;
-    private boolean isRecurring;
+
+    @NotNull
+    private LocalDate startDate;
+    @NotNull
+    private LocalDate endDate;
+    @Min(value = 1)
+    private int intervalDays;
 }

@@ -1,6 +1,7 @@
 package it.epicode.gs_budgets.service;
 
 import it.epicode.gs_budgets.dto.ExpenseDto;
+import it.epicode.gs_budgets.dto.RecurringExpenseDto;
 import it.epicode.gs_budgets.entity.Expense;
 import it.epicode.gs_budgets.exception.NotFoundException;
 import it.epicode.gs_budgets.repository.ExpenseRepository;
@@ -24,6 +25,7 @@ public class ExpenseService {
         expense.setComment(expenseDto.getComment());
         expense.setDate(expenseDto.getDate());
         expense.setCategory(expenseDto.getCategory());
+        expense.setRecurring(expenseDto.isRecurring());
 
         expenseRepository.save(expense);
         return "Expense with id " + expense.getId() + " correctly saved for account with id: " + expense.getAccount().getId();
@@ -50,6 +52,8 @@ public class ExpenseService {
         expense.setComment(expenseDto.getComment());
         expense.setDate(expenseDto.getDate());
         expense.setCategory(expenseDto.getCategory());
+        expense.setRecurring(expenseDto.isRecurring());
+
 
         expenseRepository.save(expense);
         return expense;
@@ -59,4 +63,10 @@ public class ExpenseService {
         expenseRepository.delete(getExpenseById(id));
         return "Expense with id " + id + " correctly deleted";
     }
+
+    //Creazione di spese ricorrenti
+
+//    public String createRecurringExpense(RecurringExpenseDto recurringExpenseDto){
+//
+//    }
 }

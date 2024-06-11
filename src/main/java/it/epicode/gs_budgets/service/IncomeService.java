@@ -25,6 +25,7 @@ public class IncomeService {
         income.setComment(incomeDto.getComment());
         income.setDate(incomeDto.getDate());
         income.setCategory(incomeDto.getCategory());
+        income.setRecurring(incomeDto.isRecurring());
 
         incomeRepository.save(income);
         return "Income with id " + income.getId() + " correctly saved for account with id: " + income.getAccount().getId();
@@ -51,6 +52,7 @@ public class IncomeService {
         income.setComment(incomeDto.getComment());
         income.setDate(incomeDto.getDate());
         income.setCategory(incomeDto.getCategory());
+        income.setRecurring(incomeDto.isRecurring());
 
         incomeRepository.save(income);
         return income;
