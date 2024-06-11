@@ -27,4 +27,6 @@ public class RecurringExpenseDto {
     private LocalDate endDate;
     @Min(value = 1)
     private int intervalDays;
+
+    private boolean isRecurring;
 }

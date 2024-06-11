@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class ExpenseService {
     @Autowired
@@ -66,7 +68,25 @@ public class ExpenseService {
 
     //Creazione di spese ricorrenti
 
-//    public String createRecurringExpense(RecurringExpenseDto recurringExpenseDto){
-//
-//    }
+    public String createRecurringExpenses(RecurringExpenseDto recurringExpenseDto){
+        LocalDate currentDate= recurringExpenseDto.getStartDate();
+
+        do {
+            Expense baseExpense = new Expense();
+            baseExpense.setAccount(recurringExpenseDto.getAccount());
+            baseExpense.setAmount(recurringExpenseDto.getAmount());
+            baseExpense.setTag(recurringExpenseDto.getTag());
+            baseExpense.setComment(recurringExpenseDto.getComment());
+            baseExpense.setCategory(recurringExpenseDto.getCategory());
+            baseExpense.setRecurring(recurringExpenseDto.isRecurring());
+            baseExpense.setDate(currentDate);
+
+            expenseRepository.save(baseExpense);
+            currentDate = currentDate.plusDays(recurringExpenseDto.getIntervalDays());
+
+        } while (!currentDate.isAfter(recurringExpenseDto.getEndDate()));
+
+        return "Recurring expense correctly created";
+
+    }
 }

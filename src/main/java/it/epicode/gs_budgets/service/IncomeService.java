@@ -1,6 +1,9 @@
 package it.epicode.gs_budgets.service;
 
 import it.epicode.gs_budgets.dto.IncomeDto;
+import it.epicode.gs_budgets.dto.RecurringExpenseDto;
+import it.epicode.gs_budgets.dto.RecurringIncomeDto;
+import it.epicode.gs_budgets.entity.Expense;
 import it.epicode.gs_budgets.entity.Income;
 import it.epicode.gs_budgets.exception.NotFoundException;
 import it.epicode.gs_budgets.repository.IncomeRepository;
@@ -10,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class IncomeService {
@@ -61,5 +66,28 @@ public class IncomeService {
     public String deleteIncome(int id) {
         incomeRepository.delete(getIncomeById(id));
         return "Income with id " + id + " correctly deleted";
+    }
+
+    //entrate ricorrenti
+    public String createRecurringIncomes(RecurringIncomeDto recurringIncomeDto){
+        LocalDate currentDate= recurringIncomeDto.getStartDate();
+
+        do {
+            Income baseIncome = new Income();
+            baseIncome.setAccount(recurringIncomeDto.getAccount());
+            baseIncome.setAmount(recurringIncomeDto.getAmount());
+            baseIncome.setTag(recurringIncomeDto.getTag());
+            baseIncome.setComment(recurringIncomeDto.getComment());
+            baseIncome.setCategory(recurringIncomeDto.getCategory());
+            baseIncome.setRecurring(recurringIncomeDto.isRecurring());
+            baseIncome.setDate(currentDate);
+
+            incomeRepository.save(baseIncome);
+            currentDate = currentDate.plusDays(recurringIncomeDto.getIntervalDays());
+
+        } while (!currentDate.isAfter(recurringIncomeDto.getEndDate()));
+
+        return "Recurring income correctly created";
+
     }
 }
