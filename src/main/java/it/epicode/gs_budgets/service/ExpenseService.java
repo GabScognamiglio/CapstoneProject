@@ -78,7 +78,7 @@ public class ExpenseService {
 
         do {
             Expense baseExpense = new Expense();
-            baseExpense.setAccount(recurringExpenseDto.getAccount());
+            baseExpense.setAccount(accountService.getAccountById(recurringExpenseDto.getAccountId()));
             baseExpense.setAmount(recurringExpenseDto.getAmount());
             baseExpense.setTag(recurringExpenseDto.getTag());
             baseExpense.setComment(recurringExpenseDto.getComment());

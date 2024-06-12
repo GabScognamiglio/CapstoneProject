@@ -78,7 +78,7 @@ public class IncomeService {
 
         do {
             Income baseIncome = new Income();
-            baseIncome.setAccount(recurringIncomeDto.getAccount());
+            baseIncome.setAccount(accountService.getAccountById(recurringIncomeDto.getAccountId()));
             baseIncome.setAmount(recurringIncomeDto.getAmount());
             baseIncome.setTag(recurringIncomeDto.getTag());
             baseIncome.setComment(recurringIncomeDto.getComment());

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class RecurringExpenseDto {
 
     @NotNull
-    private Account account;
+    private int accountId;
 
     @Min(value = 0)
     private double amount;

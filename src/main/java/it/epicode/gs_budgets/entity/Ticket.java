@@ -1,6 +1,7 @@
 package it.epicode.gs_budgets.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import it.epicode.gs_budgets.enums.TicketStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,6 +24,6 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+    @JsonIncludeProperties({"id"})
     private User user;
 }

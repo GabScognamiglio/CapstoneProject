@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -19,12 +20,10 @@ import java.util.Arrays;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity(debug = true) //con debug true, nel caso di errori ci darà ancora piu info riguardo l'errore
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity
-// EnableMethodSecurity PERMETTE DI ATTIVARE LA SICUREZZA SU I METODI DEL CONTROLLER CON ANNOTAZIONE @PRE AUTHORIZED
 public class SecurityConfig {
 
-    //disabilitiamo alcuni filtri, tipo l'autenticazione con il form, csrf(protezione contro accessi impropri), sessionManagement
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

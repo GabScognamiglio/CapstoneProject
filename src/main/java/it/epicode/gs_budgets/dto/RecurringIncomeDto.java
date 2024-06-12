@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 public class RecurringIncomeDto {
     @NotNull
-    private Account account;
+    private int accountId;
 
     @Min(value = 0)
     private double amount;

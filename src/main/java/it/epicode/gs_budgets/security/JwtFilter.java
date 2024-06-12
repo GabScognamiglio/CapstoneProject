@@ -1,6 +1,7 @@
 package it.epicode.gs_budgets.security;
 
 import it.epicode.gs_budgets.entity.User;
+import it.epicode.gs_budgets.exception.Error;
 import it.epicode.gs_budgets.exception.NotFoundException;
 import it.epicode.gs_budgets.exception.UnauthorizedException;
 import it.epicode.gs_budgets.service.UserService;
@@ -9,6 +10,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +20,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -48,6 +52,21 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request, response);
+//            try {
+//
+//            } catch (Exception e) {
+//                Error error = new Error();
+//                error.setMessage(e.getMessage());
+//                error.setDate(LocalDateTime.now());
+//                error.setStatus(HttpStatus.UNAUTHORIZED); // Impostare lo stato appropriato (es. UNAUTHORIZED)
+//
+//                // Creare un ResponseEntity con l'oggetto Error e lo stato appropriato
+//                ResponseEntity<Object> errorResponse = new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+//
+//                // Inviare la risposta di errore al client
+//                response.setStatus(errorResponse.getStatusCode().value());
+//                response.getWriter().write(errorResponse.getBody().toString());
+//            }
         }
 
     }
