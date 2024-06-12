@@ -13,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/gs-budgets/accounts")
 public class AccountController {
@@ -61,5 +63,10 @@ public class AccountController {
         return accountService.deleteAccount(id);
     }
 
+    @GetMapping("user/{userId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public List<Account> getAccountByUserId(@PathVariable int userId){
+        return accountService.getAccountByUserId(userId);
+    }
 
 }

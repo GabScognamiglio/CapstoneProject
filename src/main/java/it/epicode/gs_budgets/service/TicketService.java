@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TicketService {
 
@@ -70,6 +72,10 @@ public class TicketService {
        ticketRepository.save(ticket);
 
        return ticket;
+    }
+
+    public List<Ticket> getTicketsByUserId (int userId){
+        return ticketRepository.findByUserId(userId);
     }
 
 }

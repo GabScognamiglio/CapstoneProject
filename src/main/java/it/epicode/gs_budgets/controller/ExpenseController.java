@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/gs-budgets/expenses")
 public class ExpenseController {
@@ -71,5 +73,11 @@ public class ExpenseController {
                     map(objectError -> objectError.getDefaultMessage()).reduce("", (s, s2) -> s + " - " + s2));
         }
         return expenseService.createRecurringExpenses(recurringExpenseDto);
+    }
+
+    @GetMapping("/account/{accountId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public List<Expense> getIncomesByAccountId (@PathVariable int accountId) {
+        return expenseService.getExpenseByAccountId(accountId);
     }
 }

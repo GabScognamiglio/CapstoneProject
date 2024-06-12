@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountService {
 
@@ -57,6 +59,12 @@ public class AccountService {
     public String deleteAccount(int id) {
         accountRepository.delete(getAccountById(id));
         return "Account with id " + id + " correctly deleted";
+    }
+
+
+    //PER AVERE GLI ACCOUNT DELL'UTENTE LOGGATO
+    public List<Account> getAccountByUserId(int userId) {
+        return accountRepository.findByUserId(userId);
     }
 
 }

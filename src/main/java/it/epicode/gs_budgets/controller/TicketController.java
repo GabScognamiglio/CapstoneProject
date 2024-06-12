@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/gs-budgets/tickets")
 public class TicketController {
@@ -71,8 +73,14 @@ public class TicketController {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors().stream().
                     map(objectError -> objectError.getDefaultMessage()).reduce("", (s, s2) -> s + " - " + s2));
-            // " - " (riga sopra) serve per separare gli errori con un trattino tra uno e l'altro
         }
         return ticketService.patchAdminAnswer(id, adminTicketAnswerDto);
     }
+
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Ticket> getTicketsByUserId(@PathVariable int userId){
+        return ticketService.getTicketsByUserId(userId);
+    }
+
 }

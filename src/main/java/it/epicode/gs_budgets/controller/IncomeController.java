@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/gs-budgets/incomes")
 public class IncomeController {
@@ -72,4 +74,11 @@ public class IncomeController {
         }
         return incomeService.createRecurringIncomes(recurringIncomeDto);
     }
+
+    @GetMapping("/account/{accountId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public List<Income> getIncomesByAccountId (@PathVariable int accountId) {
+        return incomeService.getIncomesByAccountId(accountId);
+    }
+
 }

@@ -3,6 +3,7 @@ package it.epicode.gs_budgets.service;
 import it.epicode.gs_budgets.dto.ExpenseDto;
 import it.epicode.gs_budgets.dto.RecurringExpenseDto;
 import it.epicode.gs_budgets.entity.Expense;
+import it.epicode.gs_budgets.entity.Income;
 import it.epicode.gs_budgets.exception.NotFoundException;
 import it.epicode.gs_budgets.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ExpenseService {
@@ -91,5 +93,9 @@ public class ExpenseService {
 
         return "Recurring expense correctly created";
 
+    }
+
+    public List<Expense> getExpenseByAccountId(int accountId){
+        return expenseRepository.findByAccountId(accountId);
     }
 }
