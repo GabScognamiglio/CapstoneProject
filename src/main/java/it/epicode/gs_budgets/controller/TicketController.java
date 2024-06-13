@@ -78,7 +78,7 @@ public class TicketController {
     }
 
     @GetMapping("/user/{userId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public List<Ticket> getTicketsByUserId(@PathVariable int userId){
         return ticketService.getTicketsByUserId(userId);
     }
