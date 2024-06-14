@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping("/api/gs-budgets/users/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@PathVariable int id, @RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
