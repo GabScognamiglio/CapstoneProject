@@ -12,5 +12,6 @@ public enum ExpenseCategory {
     TRASPORTI,
     ABBONAMENTI,
     AUTO,
+    OBIETTIVI,
     ALTRO
 }

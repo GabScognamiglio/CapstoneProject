@@ -77,7 +77,7 @@ public class ExpenseController {
 
     @GetMapping("/account/{accountId}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public List<Expense> getIncomesByAccountId (@PathVariable int accountId) {
+    public List<Expense> getExpensesByAccountId (@PathVariable int accountId) {
         return expenseService.getExpenseByAccountId(accountId);
     }
 }

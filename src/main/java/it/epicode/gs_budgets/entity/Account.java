@@ -22,12 +22,15 @@ public class Account {
     private String description;
     private LocalDate creationDate = LocalDate.now();
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Income> incomes;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Expense> expenses;
+
+    @OneToMany(mappedBy = "account")
+    private List<SavingGoal> savingGoals;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

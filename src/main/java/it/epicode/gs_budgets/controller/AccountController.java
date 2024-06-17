@@ -4,6 +4,7 @@ import it.epicode.gs_budgets.dto.AccountDto;
 import it.epicode.gs_budgets.entity.Account;
 import it.epicode.gs_budgets.entity.User;
 import it.epicode.gs_budgets.exception.BadRequestException;
+import it.epicode.gs_budgets.model.BalanceEntry;
 import it.epicode.gs_budgets.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/gs-budgets/accounts")
@@ -68,5 +70,51 @@ public class AccountController {
     public List<Account> getAccountByUserId(@PathVariable int userId){
         return accountService.getAccountByUserId(userId);
     }
+
+
+    //BILANCI VARI
+
+    @GetMapping("{accountId}/total-balance")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public BalanceEntry getAccountTotalBalance(@PathVariable int accountId){
+        return accountService.getAccountTotalBalance(accountId);
+    }
+
+    @GetMapping("{accountId}/last-year-balance")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public BalanceEntry getAccountBalanceLast12Months(@PathVariable int accountId){
+        return accountService.getAccountBalanceLast12Months(accountId);
+    }
+
+    @GetMapping("{accountId}/last-month-balance")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public BalanceEntry getAccountBalanceLastMonth(@PathVariable int accountId){
+        return accountService.getAccountBalanceLastMonth(accountId);
+    }
+
+    @GetMapping("{accountId}/last-week-balance")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public BalanceEntry getAccountBalanceLastWeek(@PathVariable int accountId){
+        return accountService.getAccountBalanceLastWeek(accountId);
+    }
+
+    @GetMapping("{accountId}/monthly-year-balance")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public Map<String, BalanceEntry> getAccountBalancesMonthlyLast12Months(@PathVariable int accountId) {
+        return accountService.getAccountBalancesMonthlyLast12Months(accountId);
+    }
+
+    @GetMapping("{accountId}/weekly-month-balance")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    public Map<String, BalanceEntry> getAccountBalancesWeeklyLast4Weeks(@PathVariable int accountId) {
+        return accountService.getAccountBalancesWeeklyLast4Weeks(accountId);
+    }
+
+
+
+
+
+
+
 
 }
