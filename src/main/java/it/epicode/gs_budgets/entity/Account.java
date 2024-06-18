@@ -32,7 +32,7 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<SavingGoal> savingGoals;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     @JsonIncludeProperties({"id", "email", "firstName", "lastName"})
     private User user;

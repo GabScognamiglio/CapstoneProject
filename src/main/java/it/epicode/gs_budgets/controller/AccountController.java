@@ -67,7 +67,7 @@ public class AccountController {
 
     @GetMapping("user/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public List<Account> getAccountByUserId(@PathVariable int userId){
+    public Account getAccountByUserId(@PathVariable int userId){
         return accountService.getAccountByUserId(userId);
     }
 

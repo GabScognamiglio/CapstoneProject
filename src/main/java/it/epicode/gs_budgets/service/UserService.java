@@ -1,8 +1,10 @@
 package it.epicode.gs_budgets.service;
 
 import it.epicode.gs_budgets.dto.UserDto;
+import it.epicode.gs_budgets.entity.Account;
 import it.epicode.gs_budgets.entity.User;
 import it.epicode.gs_budgets.exception.NotFoundException;
+import it.epicode.gs_budgets.repository.AccountRepository;
 import it.epicode.gs_budgets.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public String saveUser(UserDto userDto) {
@@ -32,7 +37,14 @@ public class UserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
+        Account account =new Account();
+        account.setName("Conto di " + user.getFirstName());
+        account.setDescription("Conto personale");
+        account.setUser(user);
+        user.setAccount(account);
         userRepository.save(user);
+        accountRepository.save(account);
+
         return "User with id " + user.getId() + " correctly saved";
     }
 

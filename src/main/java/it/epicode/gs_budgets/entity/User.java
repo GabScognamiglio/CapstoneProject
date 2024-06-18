@@ -30,8 +30,8 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-    @OneToMany(mappedBy = "user")
-    private List<Account> accounts;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    private Account account;
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets;
 

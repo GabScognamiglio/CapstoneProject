@@ -19,7 +19,7 @@ public class NotificationService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    @Scheduled(fixedRate = 180000)
+    @Scheduled(fixedRate = 18000)
     public void sendNotifications() {
         List<Expense> expenses = expenseRepository.findAll();
         for (Expense expense : expenses) {

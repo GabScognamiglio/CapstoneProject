@@ -70,7 +70,7 @@ public class AccountService {
 
 
     //PER AVERE GLI ACCOUNT DELL'UTENTE LOGGATO
-    public List<Account> getAccountByUserId(int userId) {
+    public Account getAccountByUserId(int userId) {
         return accountRepository.findByUserId(userId);
     }
 
