@@ -13,7 +13,6 @@ public class SavingGoalDto {
     private String description;
     @Min(value = 0)
     private double targetAmount;
-
     @Min(value = 1)
     private int accountId;
 

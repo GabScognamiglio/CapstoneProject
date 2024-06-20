@@ -75,7 +75,7 @@ public class SavingGoalService {
             expense.setAmount(increaseAmount);
             expense.setDate(LocalDate.now());
             expense.setTag("Obiettivi");
-            expense.setComment("Deposito per obiettivo: " + savingGoal.getName());
+            expense.setComment("Deposito per obiettivo: " + savingGoal.getName() + " (goalID:" + savingGoal.getId() + ").");
             expense.setCategory(ExpenseCategory.OBIETTIVI);
 
             expenseRepository.save(expense);

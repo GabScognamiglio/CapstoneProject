@@ -9,6 +9,7 @@ import it.epicode.gs_budgets.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -79,5 +80,10 @@ public class ExpenseController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public List<Expense> getExpensesByAccountId (@PathVariable int accountId) {
         return expenseService.getExpenseByAccountId(accountId);
+    }
+
+    @GetMapping("/account/recent/{accountId}")
+    public List<Expense> getRecentExpenses(@PathVariable int accountId) {
+        return expenseService.getRecentExpensesByAccountId(accountId);
     }
 }

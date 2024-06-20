@@ -1,7 +1,6 @@
 package it.epicode.gs_budgets.controller;
 
 import it.epicode.gs_budgets.dto.IncomeDto;
-import it.epicode.gs_budgets.dto.RecurringExpenseDto;
 import it.epicode.gs_budgets.dto.RecurringIncomeDto;
 import it.epicode.gs_budgets.entity.Income;
 import it.epicode.gs_budgets.exception.BadRequestException;
@@ -79,6 +78,11 @@ public class IncomeController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public List<Income> getIncomesByAccountId (@PathVariable int accountId) {
         return incomeService.getIncomesByAccountId(accountId);
+    }
+
+    @GetMapping("/account/recent/{accountId}")
+    public List<Income> getRecentIncomes(@PathVariable int accountId) {
+        return incomeService.getRecentIncomesByAccountId(accountId);
     }
 
 }

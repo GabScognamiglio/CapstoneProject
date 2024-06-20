@@ -98,4 +98,13 @@ public class ExpenseService {
     public List<Expense> getExpenseByAccountId(int accountId){
         return expenseRepository.findByAccountId(accountId);
     }
+
+    public List<Expense> getRecentExpensesByAccountId(int accountId) {
+        LocalDate today = LocalDate.now();
+        List<Expense> recentExpenses = expenseRepository.findRecentExpensesByAccountId(accountId, today);
+        if (recentExpenses.size() > 10) {
+            recentExpenses = recentExpenses.subList(0, 10);
+        }
+        return recentExpenses;
+    }
 }

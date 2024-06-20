@@ -73,8 +73,8 @@ public class IncomeService {
     }
 
     //entrate ricorrenti
-    public String createRecurringIncomes(RecurringIncomeDto recurringIncomeDto){
-        LocalDate currentDate= recurringIncomeDto.getStartDate();
+    public String createRecurringIncomes(RecurringIncomeDto recurringIncomeDto) {
+        LocalDate currentDate = recurringIncomeDto.getStartDate();
 
         do {
             Income baseIncome = new Income();
@@ -95,7 +95,16 @@ public class IncomeService {
 
     }
 
-    public List<Income> getIncomesByAccountId(int accountId){
+    public List<Income> getIncomesByAccountId(int accountId) {
         return incomeRepository.findByAccountId(accountId);
+    }
+
+    public List<Income> getRecentIncomesByAccountId(int accountId) {
+        LocalDate today = LocalDate.now();
+        List<Income> recentIncomes = incomeRepository.findRecentIncomesByAccountId(accountId, today);
+        if (recentIncomes.size() > 10) {
+            recentIncomes = recentIncomes.subList(0, 10);
+        }
+        return recentIncomes;
     }
 }

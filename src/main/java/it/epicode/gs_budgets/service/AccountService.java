@@ -177,12 +177,17 @@ public class AccountService {
     // Metodi privati per calcolare i bilanci
 
     //BILANCIO TOTALE
+
     private BalanceEntry calculateTotalBalance(Account account) {
+        LocalDate today = LocalDate.now();
+
         double totalIncome = account.getIncomes().stream()
+                .filter(income -> !income.getDate().isAfter(today)) // Filtra le entrate future
                 .mapToDouble(Income::getAmount)
                 .sum();
 
         double totalExpense = account.getExpenses().stream()
+                .filter(expense -> !expense.getDate().isAfter(today)) // Filtra le spese future
                 .mapToDouble(Expense::getAmount)
                 .sum();
 
