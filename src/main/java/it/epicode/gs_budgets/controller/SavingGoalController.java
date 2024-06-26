@@ -58,6 +58,7 @@ public class SavingGoalController {
     }
 
     @PutMapping("/{savingGoalId}/increase-saved-amount")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public SavingGoal increaseSavedAmount(
             @PathVariable int savingGoalId,
             @RequestParam int newSavedAmount) {
