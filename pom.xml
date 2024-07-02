@@ -14,7 +14,7 @@
 	<name>gs_budgets</name>
 	<description>Capstone Project for Epicode Bootcamp</description>
 	<properties>
-		<java.version>22</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
