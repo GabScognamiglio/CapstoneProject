@@ -99,65 +99,21 @@ public class AccountService {
 
 
     //BILANCIO + SPESE + ENTRATE MESE PER MESE ULTIMI 12
-//    public Map<String, BalanceEntry> getAccountBalancesMonthlyLast12Months(int accountId) {
-//        Account account = getAccountById(accountId);
-//        Map<String, BalanceEntry> balances = new LinkedHashMap<>();
-//
-//        LocalDate today = LocalDate.now();
-//        LocalDate startDate = today.minusMonths(12).withDayOfMonth(1);
-//        LocalDate endDate = today.withDayOfMonth(1).minusDays(1);
-//
-//        LocalDate tempDate = startDate;
-//        while (!tempDate.isAfter(endDate)) {
-//            LocalDate finalTempDate = tempDate;
-//
-//            double totalIncome = account.getIncomes().stream()
-//                    .filter(income -> income.getDate().getMonth() == finalTempDate.getMonth() && income.getDate().getYear() == finalTempDate.getYear())
-//                    .mapToDouble(Income::getAmount)
-//                    .sum();
-//
-//            double totalExpense = account.getExpenses().stream()
-//                    .filter(expense -> expense.getDate().getMonth() == finalTempDate.getMonth() && expense.getDate().getYear() == finalTempDate.getYear())
-//                    .mapToDouble(Expense::getAmount)
-//                    .sum();
-//
-//            double balance = totalIncome - totalExpense;
-//
-//            BalanceEntry entry = new BalanceEntry();
-//            entry.setBalance(balance);
-//            entry.setTotalIncome(totalIncome);
-//            entry.setTotalExpense(totalExpense);
-//
-//            balances.put(finalTempDate.getMonth().toString() + " " + finalTempDate.getYear(), entry);
-//            tempDate = tempDate.plusMonths(1);
-//        }
-//
-//        return balances;
-//    }
-
     public Map<String, BalanceEntry> getAccountBalancesMonthlyLast12Months(int accountId) {
         Account account = getAccountById(accountId);
         Map<String, BalanceEntry> balances = new LinkedHashMap<>();
 
         LocalDate today = LocalDate.now();
-        // Calcola la data di inizio 12 mesi fa da oggi
-        LocalDate startDate = today.minusMonths(12).withDayOfMonth(1);
-        // Calcola la data di fine come il mese precedente rispetto ad oggi
-        LocalDate endDate = today.withDayOfMonth(1).minusDays(1);
+        LocalDate startDate = today.minusMonths(11).withDayOfMonth(1);
+        LocalDate endDate = today.withDayOfMonth(1);
 
-        // Parti da luglio dell'anno precedente rispetto all'anno corrente
-        LocalDate tempDate = startDate.plusMonths(1).withMonth(7);
+        LocalDate tempDate = startDate;
 
         while (!tempDate.isAfter(endDate)) {
             calculateBalanceForDate(account, tempDate, balances);
 
             // Avanza al mese successivo
             tempDate = tempDate.plusMonths(1);
-        }
-
-        // Calcola il bilancio anche per il mese corrente (giugno 2024)
-        if (today.getMonthValue() == 6) { // Se siamo a giugno
-            calculateBalanceForDate(account, today, balances);
         }
 
         return balances;
@@ -183,7 +139,6 @@ public class AccountService {
 
         balances.put(date.getMonth().toString() + " " + date.getYear(), entry);
     }
-
 
 
     //BILANCIO + SPESE + ENTRATE SETTIMANA PER SETTIMANA ULTIME 4
@@ -224,7 +179,6 @@ public class AccountService {
     }
 
 
-
     // Metodi privati per calcolare i bilanci
 
     //BILANCIO TOTALE
@@ -256,8 +210,6 @@ public class AccountService {
     private BalanceEntry calculateBalanceLastMonths(Account account, int months) {
         LocalDate today = LocalDate.now();
         LocalDate monthsAgo = today.minusMonths(months);
-
-        // Per evitare operazioni future, definiamo una data massima pari a oggi.
         LocalDate maxDate = today;
 
         double totalIncome = account.getIncomes().stream()
@@ -333,7 +285,5 @@ public class AccountService {
 
         return entry;
     }
-
-
 
 }
